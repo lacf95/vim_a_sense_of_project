@@ -1,9 +1,9 @@
 # Vim: A sense of project
 
 ## Introduction
-Vim (or [Neovim](https://neovim.io/)) is an eminent text editor, it is
+Vim (or [Neovim](https://neovim.io/)) is an awesome text editor, it is
 lightweight, ubiquitous and customizable in its core, but those are secondary
-traits, what makes Vim shine are fast writing capabilities with powerful
+traits, what makes Vim shine are its fast writing capabilities with powerful
 keyboard centered composable commands.
 
 Despite its benefits, there is a large list of things of Vim can't do like:
@@ -12,7 +12,7 @@ Despite its benefits, there is a large list of things of Vim can't do like:
 - Code completion
 - Code linting
 - Pairing sessions
-- Global search and replace
+- Global find and replace
 
 All of those are indispensable tools for everyday development; but is this
 true? Not at all, and I'll show how can you create a better Vim setup so you
@@ -109,7 +109,28 @@ You can map that command to ctrl-s:
 noremap <c-s> :Rg<CR>
 ```
 
-### Project-wide search and replace
+### Project-wide find and replace
+This may be the hardest thing to achieve in Vim without feeling that you did
+something that you should haven't. There are a lot of ways of doing this, I'll
+present you the easiest one (though, not the best).
+
+By default Vim comes with `:grep` and `:vimgrep` both allows you to filter
+files by its content and save that list in the `quickfist` list.
+Once filtered you can replace in only those files with the `:cfdo` command, for
+example to find and replace the function named `read_file`:
+  1. First you configure Vim's hidden feature `:set hidden` to allow you to
+  edit files without errors for not having saved them.
+  1. Tthis is not needed but makes the process faster by only process the
+  required files (select only ruby files with `read_file` in them)
+  `:grep -r read_file *.rb`
+  1. And finally replacing them with `:cfdo %s/read_file/read/gc | update`
+
+![Vim Find and Replace](images/find_and_replace.gif)
+
+This method uses the unix's `grep` tool and won't omit files that you may no
+want to use like `node_modules` or ignored files by your source control system
+for Javascript, I'll leave a couple of interesting post at the end of this one
+so you can read more about this find-and-replace stuff.
 
 ### Project workspace
 You close Vim and call it a day, next morning when you open the editor you
@@ -169,6 +190,11 @@ move you directly to its declaration.
 
 ![Tags](images/tags.gif)
 
+### Code snippets
+I don't use snippets, but if you do, there are a lot of plugins for it, the
+most know and used is the
+[Snipmate & Nltisnip Snippets](https://vimawesome.com/plugin/vim-snippets)
+
 ### Pairing sessions
 Vim by itself doesn't have remote pairing capabilities, but it can be achieved
 with [tmate](https://tmate.io) for fast SSH session creation with read-only
@@ -211,11 +237,22 @@ file, for it you can disable most of them before opening the file, or, use the
 [LargeFile](https://vimawesome.com/plugin/largefile) to do it for you.
 
 ## Conclusion
-<!-- Were those solutions enough? -->
-<!--
-  Are all issues addressed?
-  If not What makes Vim good even without those things?
-  Further research and other helpful plugins
--->
+All of this seem like a lot, why should I even care to do all of
+this if Visual Studio Code, or "Insert my favorite code editor" does that
+and more right out of the box? You may ask, well the thing here is that allows
+you to tailor the text editor as you please, without mayor shortcomings, faster
+than any other code editor you have ever use, ready to be used in almost any
+Unix system that you come across (and windows too).
+
+For me is **the experience**, that rewarding feeling that you get when you
+happen to do a tedious thing with a couple of commands; tools make the
+work experience, I'm sure that woodworkers doesn't like a dull saw nor
+painters like cheap brushes.
+
+#### Useful blog posts:
+  - [My Vim config file](https://github.com/lacf95/dot-files/blob/master/nvim/init.vim)
   - [10 Vim plugins for Writers](https://tomfern.com/posts/vim-for-writers)
   - [Vim: you don't need NERDTree or (maybe) netrw](https://shapeshed.com/vim-netrw/)
+  - [Project-wide find and replace](http://vimcasts.org/episodes/project-wide-find-and-replace/)
+  - [Supercharging Vim: Blazing fast search and global replace](https://www.mattlayman.com/blog/2019/supercharging-vim-blazing-fast-search/)
+  - [Visual Studio Code Vim](https://marketplace.visualstudio.com/items?itemName=vscodevim.vim)
